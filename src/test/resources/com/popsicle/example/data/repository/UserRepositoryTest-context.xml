@@ -7,9 +7,7 @@
   class="org.springframework.orm.jpa.JpaTransactionManager"
   p:entityManagerFactory-ref="entityManagerFactory"/>
 
-  <jdbc:embedded-database id="dataSource" type="HSQL">
-    <!--<jdbc:script location="classpath:/schema.sql" encoding="UTF-8" />-->
-  </jdbc:embedded-database>    
+  <jdbc:embedded-database id="dataSource" type="HSQL" />
 
   <bean id="entityManagerFactory" 
     class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
@@ -19,7 +17,6 @@
     <property name="jpaPropertyMap">
       <map>
         <entry key="eclipselink.weaving" value="static"/>
-        <entry key="eclipselink.ddl-generation" value="create-tables" />
         <entry key="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:mymemdb"/>
         <entry key="javax.persistence.jdbc.user" value="SA"/>
         <entry key="javax.persistence.jdbc.password" value=""/>
@@ -30,6 +27,7 @@
       <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
         <property name="generateDdl" value="true" />
         <property name="databasePlatform" value="HSQL" />
+        <property name="showSql" value="true" />
       </bean>
     </property>
     <property name="packagesToScan" value="com.popsicle.example.data.model"/>
