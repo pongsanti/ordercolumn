@@ -1,35 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<jpa:repositories base-package="com.popsicle.example.data.repository" />
+  <import resource="classpath:META-INF/spring/data-context.xml" />
 
- <bean id="transactionManager" 
-  class="org.springframework.orm.jpa.JpaTransactionManager"
-  p:entityManagerFactory-ref="entityManagerFactory"/>
-
-  <jdbc:embedded-database id="dataSource" type="HSQL" />
-
-  <bean id="entityManagerFactory" 
-    class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-    p:dataSource-ref="dataSource"
-    p:persistenceUnitName="hsql">
-
-    <property name="jpaPropertyMap">
-      <map>
-        <entry key="eclipselink.weaving" value="static"/>
-        <entry key="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:mymemdb"/>
-        <entry key="javax.persistence.jdbc.user" value="SA"/>
-        <entry key="javax.persistence.jdbc.password" value=""/>
-      </map>
-    </property>
-
-    <property name="jpaVendorAdapter">
-      <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
-        <property name="generateDdl" value="true" />
-        <property name="databasePlatform" value="HSQL" />
-        <property name="showSql" value="true" />
-      </bean>
-    </property>
-    <property name="packagesToScan" value="com.popsicle.example.data.model"/>
-  </bean>
 </beans>
