@@ -10,9 +10,9 @@ import org.springframework.test.context.junit4.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.transaction.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
-import com.popsicle.example.data.model.User;
+import com.popsicle.example.data.model.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -22,6 +22,13 @@ public class UserRepositoryTest {
 	@Autowired
 	private UserRepository userRepository;
 
+	private User user;
+
+	@Before
+	public void setUp() {
+		user = createUser("Foo");
+	}
+
 	@Test
 	public void testFindAll() {
 		List<User> users = userRepository.findAll();
@@ -30,8 +37,6 @@ public class UserRepositoryTest {
 
 	@Test
 	public void testSave() {
-		User user = new User();
-		user.setUsername("Foo");
 		assertNull(user.getUserId());
 
 		user = userRepository.save(user);
@@ -41,4 +46,43 @@ public class UserRepositoryTest {
 		System.out.println("User Id = " + userId);
 	}
 
+	@Test
+	public void testSaveCascade() {
+		int accountAmount = 10;
+		List<Account> accounts = new ArrayList<>();
+
+		for(int i = 0; i < accountAmount; i++) {
+			accounts.add(createAccount("Acc_" + i, user));
+		}
+
+		Collections.reverse(accounts);
+		user.setAccounts(accounts);
+		user = userRepository.save(user);
+
+		assertEquals(accountAmount, user.getAccounts().size());
+		printAccounts(user);
+		System.out.println("---");
+		printAccounts(userRepository.findOne(user.getUserId()));
+	}
+
+	private void printAccounts(User user) {
+		for(Account account: user.getAccounts()) {
+			System.out.println(account);
+		}
+	}
+
+	private User createUser(String name) {
+		User user = new User();
+		user.setUsername(name);
+		return user;
+	}
+
+	private Account createAccount(String name, User user) {
+		Account acc = new Account();
+
+		acc.setAccountName(name);
+		acc.setUser(user);
+
+		return acc;
+	}
 }

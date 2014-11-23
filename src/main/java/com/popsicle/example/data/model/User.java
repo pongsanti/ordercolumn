@@ -14,6 +14,7 @@ public class User {
 	private String username;
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+	@OrderColumn(name="INDEX")
 	private List<Account> accounts;
 
 	public Long getUserId() {

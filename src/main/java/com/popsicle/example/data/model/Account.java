@@ -39,4 +39,9 @@ public class Account {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "Id: " + this.accountId + ", name: " + this.accountName;
+	}
 }
