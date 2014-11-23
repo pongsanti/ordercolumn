@@ -3,6 +3,7 @@ package com.popsicle.example.data.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "User")
 public class User {
 
 	@Id
